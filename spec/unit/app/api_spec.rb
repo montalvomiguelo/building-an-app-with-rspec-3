@@ -23,7 +23,6 @@ module ExpenseTracker
         it 'returns the expense id' do
           post_json '/expenses', expense.to_json
 
-          parsed = JSON.parse(last_response.body)
           expect(parsed).to include('expense_id' => 417)
         end
 
@@ -45,7 +44,6 @@ module ExpenseTracker
         it 'returns an error message' do
           post_json '/expenses', expense.to_json
 
-          parsed = JSON.parse(last_response.body)
           expect(parsed).to include('error' => 'Expense incomplete')
         end
 
@@ -55,6 +53,10 @@ module ExpenseTracker
           expect(last_response.status).to eq(422)
         end
       end
+    end
+
+    def parsed
+      JSON.parse(last_response.body)
     end
 
     def post_json(uri, json)
