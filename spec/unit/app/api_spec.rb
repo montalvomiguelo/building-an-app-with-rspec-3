@@ -23,22 +23,44 @@ module ExpenseTracker
         end
 
         it 'returns the expense id' do
-          post '/expenses', expense.to_json, { 'CONTENT_TYPE' => 'application/json' }
+          post_json '/expenses', expense.to_json
 
           parsed = JSON.parse(last_response.body)
           expect(parsed).to include('expense_id' => 417)
         end
 
         it 'responds with a 200 (OK)' do
-          post '/expenses', expense.to_json, { 'CONTENT_TYPE' => 'application/json' }
+          post_json '/expenses', expense.to_json
           expect(last_response.status).to eq(200)
         end
       end
 
       context 'when the expense fails validation' do
-        it 'returns an error message'
-        it 'responds with a 422 (nprocessable entity)'
+        let(:expense) { { 'some' => 'data' } }
+
+        before do
+          allow(ledger).to receive(:record)
+            .with(expense)
+            .and_return(RecordResult.new(false, 417, 'Expense incomplete'))
+        end
+
+        it 'returns an error message' do
+          post_json '/expenses', expense.to_json
+
+          parsed = JSON.parse(last_response.body)
+          expect(parsed).to include('error' => 'Expense incomplete')
+        end
+
+        it 'responds with a 422 (nprocessable entity)' do
+          post_json '/expenses', expense.to_json
+
+          expect(last_response.status).to eq(422)
+        end
       end
+    end
+
+    def post_json(uri, json)
+      post uri, json, { 'CONTENT_TYPE' => 'application/json' }
     end
   end
 end

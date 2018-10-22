@@ -9,6 +9,9 @@ module ExpenseTracker
       request.body.rewind
       data = JSON.parse request.body.read
       result = @ledger.record(data)
+      unless result.success?
+        halt 422, json(:error => result.error_message)
+      end
       json :expense_id => result.expense_id
     end
 
