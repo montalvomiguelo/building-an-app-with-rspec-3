@@ -9,13 +9,23 @@ module ExpenseTracker
     end
 
     it 'records submitted expenses' do
-      coffee = {
+      coffee = post_expense(
         'payee' => 'Starbucks',
         'amount' => 5.75,
         'date' => '2017-06-10'
-      }
+      )
 
-      post_expense(coffee)
+      zoo = post_expense(
+        'payee' => 'Zoo',
+        'amount' => 15.25,
+        'data' => '2017-06-10'
+      )
+
+      groceries = post_expense(
+        'payee' => 'Whole Foods',
+        'amount' => 95.20,
+        'date' => '2017-06-11'
+      )
     end
 
     def post_expense(expense)
