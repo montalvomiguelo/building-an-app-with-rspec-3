@@ -4,6 +4,6 @@ development:
 
 test:
   adapter: sqlite
-  database: ":memory:"
+  database: db/test.sqlite3
 
 production: <%= ENV['DATABASE_URL'] %>
