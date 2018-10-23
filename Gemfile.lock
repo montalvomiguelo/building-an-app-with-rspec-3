@@ -13,10 +13,13 @@ GEM
     diff-lcs (1.3)
     i18n (1.1.1)
       concurrent-ruby (~> 1.0)
+    mini_portile2 (2.3.0)
     minitest (5.11.3)
     multi_json (1.13.1)
     mustermann (1.0.3)
     mysql2 (0.5.2)
+    nokogiri (1.8.5)
+      mini_portile2 (~> 2.3.0)
     rack (2.0.5)
     rack-protection (2.0.4)
       rack
@@ -62,6 +65,7 @@ DEPENDENCIES
   byebug
   database_cleaner
   mysql2
+  nokogiri
   rack-test
   rspec
   sequel

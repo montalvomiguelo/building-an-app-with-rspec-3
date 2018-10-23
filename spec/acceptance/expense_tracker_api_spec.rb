@@ -34,6 +34,34 @@ module ExpenseTracker
       expect(expenses).to contain_exactly(coffee, zoo)
     end
 
+    it 'retreives expenses in XML format' do
+      pending 'XML format not implemented yet'
+
+      coffee = post_expense(
+        'payee' => 'Starbucks',
+        'amount' => 5.75,
+        'date' => '2017-06-10'
+      )
+
+      zoo = post_expense(
+        'payee' => 'Zoo',
+        'amount' => 15.25,
+        'date' => '2017-06-11'
+      )
+
+      get '/expenses/2017-06-10', {}, { 'CONTENT_TYPE' => 'text/xml' }
+
+      xml_doc = Nokogiri::Slop(last_response.body)
+      expenses = xml_doc.expenses.expense
+      expense = expenses.first
+
+      expect(expenses.count).to eq(1)
+      expect(expense.id.content).to eq(coffee['id'])
+      expect(expense.payee.content).to eq(coffee['payee'])
+      expect(expense.amount.content).to eq(coffee['amount'])
+      expect(expense.date.content).to eq(coffee['date'])
+    end
+
     def post_expense(expense)
       post '/expenses', expense.to_json, { 'CONTENT_TYPE' => 'application/json' }
       expect(last_response.status).to eq(200)

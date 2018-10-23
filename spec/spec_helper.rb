@@ -20,7 +20,7 @@ RSpec.configure do |config|
     require_relative 'support/db'
   end
 
-  config.filter_gems_from_backtrace 'rack', 'rack-test', 'sinatra'
+  config.filter_gems_from_backtrace 'rack', 'rack-test', 'sinatra', 'sequel', 'database_cleaner'
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.
