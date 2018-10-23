@@ -1,0 +1,15 @@
+default: &default
+  adapter: mysql2
+  username: root
+  password:
+
+development:
+  <<: *default
+  database: expense_tracker_development
+
+test:
+  <<: *default
+  database: expense_tracker_test
+
+production:
+  url: <%= ENV['DATABASE_URL'] %>
