@@ -1,15 +1,9 @@
-default: &default
-  adapter: mysql2
-  username: root
-  password:
-
 development:
-  <<: *default
-  database: expense_tracker_development
+  adapter: sqlite
+  database: db/development.sqlite3
 
 test:
-  <<: *default
-  database: expense_tracker_test
+  adapter: sqlite
+  database: ":memory:"
 
-production:
-  url: <%= ENV['DATABASE_URL'] %>
+production: <%= ENV['DATABASE_URL'] %>

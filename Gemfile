@@ -4,10 +4,14 @@ ruby '2.5.1'
 
 gem 'sinatra'
 gem 'sinatra-contrib'
-gem 'mysql2'
 gem 'sequel'
 
+group :production do
+  gem 'mysql2'
+end
+
 group :development, :test do
+  gem 'sqlite3'
   gem 'byebug'
 end
 
