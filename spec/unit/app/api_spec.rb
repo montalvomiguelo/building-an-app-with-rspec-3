@@ -95,6 +95,29 @@ module ExpenseTracker
           expect(last_response.status).to eq(200)
         end
       end
+
+      context 'when the request header Accept is text/xml' do
+        before do
+          allow(ledger).to receive(:expenses_on)
+            .with('2017-06-10')
+            .and_return(['coffee', 'zoo'])
+        end
+
+        it 'returns the expenses as XML' do
+          get '/expenses/2017-06-10', {}, { 'CONTENT_TYPE' => 'text/xml' }
+
+          xml_doc = Nokogiri::XML(last_response.body)
+          expenses = xml_doc.xpath('//expenses/expense').map { |expense| expense.content }
+
+          expect(expenses).to eq(['coffee', 'zoo'])
+        end
+
+        it 'responds with status code 200' do
+          get '/expenses/2017-06-10', {}, { 'CONTENT_TYPE' => 'text/xml' }
+
+          expect(last_response.status).to eq(200)
+        end
+      end
     end
 
     def parsed
